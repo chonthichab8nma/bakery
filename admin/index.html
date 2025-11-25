@@ -10,21 +10,40 @@
 
 <body>
 
-    <h1>จัดการสินค้า</h1>
+ 
+    <nav class="TabBar">
+        <a class="tab-item active" href="index.html">
+            <i class="bi bi-house-heart-fill"></i> Manage Products
+        </a>
+        <a class="tab-item" href="../dashboard.html">
+            <i class="fa-solid fa-cake-candles"></i> Dashboard
+        </a>
+       
+    </nav>
 
-    <!-- ⭐ Form เพิ่มสินค้า -->
-    <div class="add-box">
-        <h2>เพิ่มสินค้าใหม่</h2>
-        <input type="text" id="name" placeholder="ชื่อสินค้า">
-        <input type="number" id="price" placeholder="ราคา">
-        <input type="text" id="imagePath" placeholder="imagePath (public/... หรือ products/...)">
-        <button onclick="addProduct()">เพิ่มสินค้า</button>
+
+    <div class="main-content">
+
+        <h1>**จัดการสินค้า**</h1>
+
+        <!-- ⭐ ฟอร์มเพิ่มสินค้า -->
+        <div class="add-box">
+            <h2>เพิ่มสินค้าใหม่</h2>
+
+            <input type="text" id="name" placeholder="ชื่อสินค้า">
+            <input type="number" id="price" placeholder="ราคา">
+            <input type="text" id="imagePath" placeholder="imagePath (public/... หรือ products/...)">
+            <input type="number" id="totalStock" placeholder="จำนวนสต็อก">
+
+            <button onclick="addProduct()">เพิ่มสินค้า</button>
+        </div>
+
+        <h2 style="margin-top:40px;">รายการสินค้า</h2>
+
+        <!-- ⭐ รายการสินค้า -->
+        <div id="product-list" class="product-list"></div>
+
     </div>
-
-    <h2 style="margin-top:40px;">รายการสินค้า</h2>
-
-    <!-- ⭐ รายการสินค้า -->
-    <div id="product-list" class="product-list"></div>
 
     <script src="admin.js"></script>
 </body>

@@ -17,12 +17,19 @@ async function loadProducts() {
             <div class="product-info">
                 <strong>${product.name}</strong>
                 ราคา: ${product.price} บาท
+                สต็อก: ${product.totalStock ?? 0}
                 <small>imagePath: ${product.imagePath}</small>
             </div>
 
             <div class="product-actions">
-                <button class="edit-btn" onclick="editProduct('${product.id}', '${product.name}', ${product.price}, '${product.imagePath}')">แก้ไข</button>
-                <button class="delete-btn" onclick="deleteProduct('${product.id}')">ลบ</button>
+                <button class="edit-btn" 
+                    onclick="editProduct('${product.id}','${product.name}',${product.price},'${product.imagePath}',${product.stock})">
+                    แก้ไข
+                </button>
+
+                <button class="delete-btn" onclick="deleteProduct('${product.id}')">
+                    ลบ
+                </button>
             </div>
         `;
 
@@ -37,8 +44,9 @@ async function addProduct() {
     const name = document.getElementById("name").value;
     const price = Number(document.getElementById("price").value);
     const imagePath = document.getElementById("imagePath").value;
+    const totalStock = Number(document.getElementById("totalStock").value);
 
-    const product = { name, price, imagePath };
+    const product = { name, price, imagePath, totalStock};
 
     await fetch(API_URL, {
         method: "POST",
@@ -51,10 +59,11 @@ async function addProduct() {
 }
 
 // ----------- EDIT PRODUCT -------------
-function editProduct(id, name, price, imagePath) {
+function editProduct(id, name, price, imagePath, totalStock) {
     const newName = prompt("แก้ไขชื่อสินค้า", name);
     const newPrice = prompt("แก้ไขราคา", price);
     const newImagePath = prompt("แก้ไขรูปภาพ", imagePath);
+    const newTotalStock = prompt("แก้ไขสต็อก", totalStock);
 
     if (!newName || !newPrice) return;
 
@@ -64,7 +73,8 @@ function editProduct(id, name, price, imagePath) {
         body: JSON.stringify({
             name: newName,
             price: Number(newPrice),
-            imagePath: newImagePath
+            imagePath: newImagePath,
+            totalStock: Number(newTotalStock)
         })
     })
     .then(() => {
@@ -73,14 +83,3 @@ function editProduct(id, name, price, imagePath) {
     });
 }
 
-// ----------- DELETE PRODUCT -------------
-async function deleteProduct(id) {
-    if (!confirm("ต้องการลบสินค้านี้หรือไม่?")) return;
-
-    await fetch(`${API_URL}/${id}`, {
-        method: "DELETE"
-    });
-
-    alert("ลบสินค้าเรียบร้อย!");
-    loadProducts();
-}
