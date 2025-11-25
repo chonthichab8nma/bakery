@@ -1,23 +1,28 @@
 const API_URL = "https://bakery-api-1fji.onrender.com/products";
-const IMAGE_BASE_URL = "https://uunyyytttawccmjtzjdz.supabase.co/storage/v1/object/public/products/";
+
 
 const productList = document.getElementById("product-list");
+function getImageUrl(path) {
+    const BASE = "https://uunyyytttawccmjtzjdz.supabase.co/storage/v1/object/";
+
+     return BASE + (path.replace("public/", "products/"));
+}
+
 
 async function loadProduct() {
     const res = await fetch(API_URL);
     const json = await res.json();
     const items = json.items;
-    console.log("API Product:", items);
 
     items.forEach(product => {
         const item = document.createElement("div");
         item.className = "product-card";
 
-       
-        const imageUrl = `${IMAGE_BASE_URL}${product.imagePath.replace("public/", "")}`;
+        const imageUrl = getImageUrl(product.imagePath);
+        console.log("Image URL:", imageUrl);
 
         item.innerHTML = `
-            <img src="${imageUrl}" alt="${product.name}">
+            <img src="${imageUrl}">
             <h3>${product.name}</h3>
             <p>ราคา: ${product.price} บาท</p>
             <button class="add-cart-btn">เพิ่มลงตระกร้า</button>
