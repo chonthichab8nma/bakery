@@ -17,26 +17,31 @@
 <body>
 
     <nav class="TabBar">
-        <a class="tab-item active" data-page="index">
+        <a class="tab-item active" href="index.html">
             <i class="bi bi-house-heart-fill"></i> Home
         </a>
-        <a class="tab-item" data-page="cart">
+        <a class="tab-item" href="cart.html">
             <i class="fa-solid fa-cake-candles"></i> Cart
         </a>
-        <a class="tab-item" data-page="dashboard">
+        <a class="tab-item" href="dashboard.html">
             <i class="bi bi-cup-hot-fill"></i> Dashboard
         </a>
     </nav>
-    
-    <div class="search-bar">
-        <input type="text" id="search" placeholder="ค้นหาขนม...">
-        <button id="search-btn">ค้นหา</button>
+
+    <!-- ครอบส่วนเนื้อหาหลัก -->
+    <div class="main-content">
+
+        <div class="search-bar">
+            <input type="text" id="search" placeholder="ค้นหาขนม...">
+            <button id="search-btn">ค้นหา</button>
+        </div>
+
+        <div id="product-list" class="grid"></div>
+
     </div>
 
-    <div id="product-list" class="grid"></div>
-
     <script src="index.js"></script>
-
 </body>
+
 
 </html>
