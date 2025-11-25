@@ -58,3 +58,30 @@
         width: 100%;
         border-radius: 10px;
     }
+    .product-card h3 {
+    font-size: 16px;
+    margin: 10px 0 5px 0;
+}
+
+.product-card p {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 6px 10px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-cart-btn {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.buy-btn {
+    background-color: #007bff;
+    color: #fff;
+}
