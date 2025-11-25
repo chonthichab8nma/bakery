@@ -1,7 +1,9 @@
 const API = "https://bakery-api-1fji.onrender.com/stats/summary";
 const API_BEST = "https://bakery-api-1fji.onrender.com/stats/best-sellers";
-const API_BEST_SELL ="https://bakery-api-1fji.onrender.com/sales";
+const API_BEST_SELL = "https://bakery-api-1fji.onrender.com/sales";
+const API_PRODUCTS = "https://bakery-api-1fji.onrender.com/products";
 
+// ฟังก์ชันแสดงยอดรวมทั้งหมด
 async function loadSummary() {
     try {
         const res = await fetch(API);
@@ -10,16 +12,30 @@ async function loadSummary() {
         const data = await res.json();
         console.log("Summary:", data);
 
+        document.getElementById("totalStock").textContent = data.totalStock;
+        document.getElementById("totalSold").textContent = data.totalSoldQuantity;
+        document.getElementById("totalRemaining").textContent = data.totalRemainingStock;
+
+    } catch (error) {
+        console.error("เกิดข้อผิดพลาด:", error);
+        document.getElementById("totalStock").textContent = "-";
+        document.getElementById("totalSold").textContent = "-";
+        document.getElementById("totalRemaining").textContent = "-";
+    }
+}
+
+// ฟังก์ชันแสดงยอดขายตามประเภทสินค้า + สร้าง dropdown
+async function loadProductsSummary() {
+    try {
+        const res = await fetch(API_PRODUCTS);
+        if (!res.ok) throw new Error("โหลดสินค้าตามหมวดไม่สำเร็จ");
+
+        const data = await res.json();
         const items = data.items || [];
+        console.log("Items:", items);
 
-        // สรุปรวมทั้งหมด
-        let totalSold = 0;
-        let totalRemaining = 0;
-        let totalRevenue = 0;
-
-        // รวมตามประเภทสินค้า
+        // แยกประเภทสินค้า
         const productMap = {};
-
         items.forEach(item => {
             const name = item.name || "Unknown";
             if (!productMap[name]) {
@@ -32,34 +48,46 @@ async function loadSummary() {
             productMap[name].soldQuantity += item.soldQuantity;
             productMap[name].remainingStock += item.remainingStock;
             productMap[name].revenue += item.soldQuantity * item.price;
-
-            totalSold += item.soldQuantity;
-            totalRemaining += item.remainingStock;
-            totalRevenue += item.soldQuantity * item.price;
         });
 
-        // แสดงยอดรวมทั้งหมดบนหน้าเว็บ
-        document.getElementById("totalStock").textContent = items.length;       // จำนวนรายการทั้งหมด
-        document.getElementById("totalSold").textContent = totalSold;           // จำนวนสินค้าที่ขายได้
-        document.getElementById("totalRemaining").textContent = totalRemaining; // สินค้าคงเหลือ
-
-        // แสดงยอดรวมตามประเภทสินค้า
+        // สร้าง dropdown
         const summaryDiv = document.getElementById("summaryByProduct");
-        if (summaryDiv) {
-            summaryDiv.innerHTML = Object.entries(productMap)
-                .map(([name, info]) => 
-                    `<p>${name} - Sold: ${info.soldQuantity}, Remaining: ${info.remainingStock}, Revenue: $${info.revenue.toFixed(2)}</p>`
-                )
-                .join('');
+        summaryDiv.innerHTML = `
+            <select id="productDropdown">
+                ${Object.keys(productMap).map(name => `<option value="${name}">${name}</option>`).join('')}
+            </select>
+            <div id="productDetails"></div>
+        `;
+
+        const productDetailsDiv = document.getElementById("productDetails");
+
+        function showProduct(name) {
+            const info = productMap[name];
+            productDetailsDiv.innerHTML = `
+        <p>${name} - สินค้าที่ขาย: ${info.soldQuantity}, สินค้าคงเหลือ: ${info.remainingStock}</p>
+    `;
         }
 
-        console.log("Product Summary:", productMap);
-        console.log("Total Revenue:", totalRevenue);
+        // แสดงค่าเริ่มต้นทั้งหมด
+        const firstProduct = Object.keys(productMap)[0];
+        showProduct(firstProduct);
+        // เปลี่ยนรายละเอียดเมื่อเลือก dropdown
+        document.getElementById("productDropdown").addEventListener("change", (e) => {
+            showProduct(e.target.value);
+        });
 
     } catch (error) {
-        console.error("เกิดข้อผิดพลาด:", error);
+        console.error(error);
+        document.getElementById("summaryByProduct").textContent = "โหลดข้อมูลไม่สำเร็จ";
     }
 }
+
+// เรียกใช้ทั้งสองฟังก์ชันเมื่อโหลดหน้า
+document.addEventListener("DOMContentLoaded", () => {
+    loadSummary();
+    loadProductsSummary();
+});
+
 
 
 async function loadBestSellers() {
@@ -136,19 +164,6 @@ async function fetchSales() {
 }
 
 fetchSales();
-
-
-
-
-
-
-
-
-
-
-
-
-
 loadSummary();
 // เรียกฟังก์ชันเมื่อโหลดหน้า
 document.addEventListener("DOMContentLoaded", loadBestSellers);
