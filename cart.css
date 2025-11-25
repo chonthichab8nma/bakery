@@ -1,0 +1,152 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background: #faf7f2;
+}
+
+.TabBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 180px;
+    height: 100vh;
+    background: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 10px;
+    gap: 15px;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.tab-item {
+    padding: 12px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    color: #333;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.tab-item:hover {
+    background: #e5e5e5;
+}
+
+.tab-item.active {
+    background: #d1e7ff;
+    color: #0056b3;
+    font-weight: bold;
+}
+
+.main-content {
+    margin-left: 200px;
+    padding: 20px;
+}
+
+/* ⭐ ตะกร้าสินค้า */
+.cart-container {
+    margin-left: 200px;
+    margin-top: 20px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.cart-item {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+}
+
+.cart-item img {
+    width: 90px;
+    height: 90px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.item-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+/* ⭐ ปุ่มเพิ่มลด */
+.minus, .plus {
+    padding: 5px 12px;
+    font-size: 18px;
+    background: #e8e8e8;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.minus:hover, .plus:hover {
+    background: #d1d1d1;
+}
+
+/* ⭐ ปุ่มลบสินค้า */
+.delete-btn {
+    background: #ff4d4d;
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background: #e63939;
+}
+
+
+.total-box {
+    margin-left: 210px;
+    background: white;
+    padding: 15px;
+    margin-top: 20px;
+    width: calc(100% - 260px);
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: bold;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+
+.buy-btn {
+    margin-left: 210px;
+    margin-top: 20px;
+    padding: 12px 25px;
+    font-size: 17px;
+    background: #007bff;
+    color: white;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.buy-btn:hover {
+    background: #0066d6;
+}
+
+/* ⭐ กล่องรวมทั้งหมดและปุ่มชำระเงินที่ขยับไปขวา */
+.checkout-box {
+    margin-left: 200px;
+    margin-top: 20px;
+    width: calc(100% - 260px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* ⭐ ชี้ให้ชิดขวา */
+    gap: 15px;
+}
+
+
+
