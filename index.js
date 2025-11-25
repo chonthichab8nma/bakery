@@ -37,7 +37,7 @@ async function loadProduct() {
         // เพิ่ม: event สำหรับปุ่ม "ซื้อสินค้า"
         item.querySelector(".buy-btn").addEventListener("click", () => {
             localStorage.setItem("puschases", JSON.stringify([product]));
-            window.location.href = "puschases.html"; // เด้งไปหน้า puschases
+            window.location.href = "purchases.html"; // เด้งไปหน้า puschases
         });
 
         productList.appendChild(item);
