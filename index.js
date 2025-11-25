@@ -14,78 +14,78 @@ async function loadProduct() {
     const json = await res.json();
     const items = json.items;
 
-    items.forEach(product => {
-        const item = document.createElement("div");
-        item.className = "product-card";
+    for (const index in items) {
+    const product = items[index];
 
-        const imageUrl = getImageUrl(product.imagePath);
-        console.log("Image URL:", imageUrl);
+    const item = document.createElement("div");
+    item.className = "product-card";
 
-        item.innerHTML = `
-            <img src="${imageUrl}">
-            <h3>${product.name}</h3>
-            <p>ราคา: ${product.price} $</p>
-            <p>คลัง: ${product.remainingStock ?? 0} ชิ้น</p>
-            <button class="add-cart-btn">เพิ่มลงตระกร้า</button>
-            <button class="buy-btn">ซื้อสินค้า</button>
-        `;
+    const imageUrl = getImageUrl(product.imagePath);
+    console.log("Image URL:", imageUrl);
 
-        // เพิ่มลงตะกร้า
-       item.querySelector(".add-cart-btn").addEventListener("click", () => {
+    item.innerHTML = `
+        <img src="${imageUrl}">
+        <h3>${product.name}</h3>
+        <p>ราคา: ${product.price} $</p>
+        <p>คลัง: ${product.remainingStock ?? 0} ชิ้น</p>
+        <button class="add-cart-btn">เพิ่มลงตะกร้า</button>
+        <button class="buy-btn">ซื้อสินค้า</button>
+    `;
 
-    if (product.remainingStock <= 0) {
-        alert("สินค้านี้หมดแล้ว!");
-        return; 
-    }
+    // ⭐ เพิ่มลงตะกร้า
+    item.querySelector(".add-cart-btn").addEventListener("click", () => {
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        if (product.remainingStock <= 0) {
+            alert("สินค้านี้หมดแล้ว!");
+            return; 
+        }
 
-    const existingItem = cart.find(i => i.id === product.id);
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const existingItem = cart.find(i => i.id === product.id);
 
-    if (existingItem) {
-        if (existingItem.quantity >= product.remainingStock) {
-            alert("จำนวนเกินสต็อกที่มีอยู่!");
+        if (existingItem) {
+            if (existingItem.quantity >= product.remainingStock) {
+                alert("จำนวนเกินสต็อกที่มีอยู่!");
+                return;
+            }
+            existingItem.quantity++;
+        } else {
+            cart.push({
+                ...product,
+                quantity: 1,
+                image: imageUrl,
+                remainingStock: product.remainingStock
+            });
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        alert("เพิ่มสินค้าลงตะกร้าแล้ว!");
+    });
+
+    // ⭐ ซื้อสินค้า
+    item.querySelector(".buy-btn").addEventListener("click", () => {
+
+        if (product.remainingStock <= 0) {
+            alert("สินค้านี้หมดแล้ว!");
             return;
         }
-        existingItem.quantity++;
-    } else {
-        cart.push({
-            ...product,
+
+        const buyItem = {
+            id: product.id,
+            name: product.name,
+            price: product.price,
             quantity: 1,
-            image: imageUrl,
-            remainingStock: product.remainingStock,
-        });
-    }
+            imagePath: product.imagePath,
+            remainingStock: product.remainingStock
+        };
 
-    localStorage.setItem("cart", JSON.stringify(cart));
-    alert("เพิ่มสินค้าลงตะกร้าแล้ว!");
-});
-
-
-        // ซื้อสินค้า
-     item.querySelector(".buy-btn").addEventListener("click", () => {
-    if (product.remainingStock <= 0) {
-        alert("สินค้านี้หมดแล้ว!");
-        return;
-    }
-
-    const buyItem = {
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        quantity: 1,
-        imagePath: product.imagePath,
-        remainingStock: product.remainingStock
-    };
-
-    localStorage.setItem("purchases", JSON.stringify([buyItem]));
-    window.location.href = "purchases.html";
-});
-
-
-        productList.appendChild(item);
+        localStorage.setItem("purchases", JSON.stringify([buyItem]));
+        window.location.href = "purchases.html";
     });
+
+    productList.appendChild(item);
 }
 
+}
 
 loadProduct();
