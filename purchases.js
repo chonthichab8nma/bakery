@@ -30,7 +30,7 @@ function purchase() {
                 <img src="${imageUrl}" style="width:80px;height:80px;border-radius:6px;">
                 <div style="margin-left:15px;">
                     <div class="item-name">${item.name}</div>
-                    <div>ราคา: ${item.price} บาท</div>
+                    <div>ราคา: ${item.price} $</div>
 
                     <div style="margin-top:8px;display:flex;align-items:center;gap:10px;">
                         <button class="minus" data-index="${index}">-</button>
@@ -40,7 +40,7 @@ function purchase() {
                 </div>
             </div>
 
-            <div style="font-weight:bold;">${total} บาท</div>
+            <div style="font-weight:bold;">${total} $</div>
         `;
 
         container.appendChild(div);

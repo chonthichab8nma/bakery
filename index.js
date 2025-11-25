@@ -24,7 +24,7 @@ async function loadProduct() {
         item.innerHTML = `
             <img src="${imageUrl}">
             <h3>${product.name}</h3>
-            <p>ราคา: ${product.price} บาท</p>
+            <p>ราคา: ${product.price} $</p>
             <button class="add-cart-btn">เพิ่มลงตระกร้า</button>
             <button class="buy-btn">ซื้อสินค้า</button>
         `;
