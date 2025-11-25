@@ -42,15 +42,16 @@ function purchase() {
 
 purchase();
 
-// ฟังก์ชันกดซื้อทั้งหมด → ส่งเข้า API
+
 async function submitOrder() {
 
+    const item = cart[0]; 
     const orderData = {
-        items: cart.map(item => ({
-            id: item.id,         
-            quantity: item.quantity || 1
-        }))
+        productId: item.id,
+        quantity: item.quantity || 1
     };
+
+    console.log("ส่งขึ้น API:", orderData);
 
     try {
         const response = await fetch("https://bakery-api-1fji.onrender.com/purchases", {
@@ -60,10 +61,12 @@ async function submitOrder() {
         });
 
         const result = await response.json();
-        console.log("ส่งคำสั่งซื้อสำเร็จ! ✅");
-        console.log(result);
+        console.log("สำเร็จ:", result);
+        alert("สั่งซื้อสินค้าสำเร็จ!");
+        window.location.href = "index.html";
 
-    } catch (error) {
-        console.error("ส่งข้อมูลล้มเหลว ❌", error);
+
+    } catch (err) {
+        console.error(err);
     }
 }
