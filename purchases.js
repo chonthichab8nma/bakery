@@ -62,6 +62,9 @@ async function submitOrder() {
 
         const result = await response.json();
         console.log("สำเร็จ:", result);
+        alert("สั่งซื้อสินค้าสำเร็จ!");
+        window.location.href = "index.html";
+
 
     } catch (err) {
         console.error(err);
