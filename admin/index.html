@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Manage Products</title>
+
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+
+    <h1>จัดการสินค้า</h1>
+
+    <!-- ⭐ Form เพิ่มสินค้า -->
+    <div class="add-box">
+        <h2>เพิ่มสินค้าใหม่</h2>
+        <input type="text" id="name" placeholder="ชื่อสินค้า">
+        <input type="number" id="price" placeholder="ราคา">
+        <input type="text" id="imagePath" placeholder="imagePath (public/... หรือ products/...)">
+        <button onclick="addProduct()">เพิ่มสินค้า</button>
+    </div>
+
+    <h2 style="margin-top:40px;">รายการสินค้า</h2>
+
+    <!-- ⭐ รายการสินค้า -->
+    <div id="product-list" class="product-list"></div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
