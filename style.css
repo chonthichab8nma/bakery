@@ -11,10 +11,11 @@
         height: 100vh;
         background: #f4f4f4;
         display: flex;
-        flex-direction: column; /* ให้เรียงลง */
+        flex-direction: column;
+        /* ให้เรียงลง */
         padding: 20px 10px;
         gap: 15px;
-        box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
     }
 
     .tab-item {
@@ -40,3 +41,20 @@
         font-weight: bold;
     }
 
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+
+    .product-card {
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    .product-card img {
+        width: 100%;
+        border-radius: 10px;
+    }
