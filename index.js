@@ -30,15 +30,33 @@ async function loadProduct() {
         `;
 
         // เพิ่มลงตะกร้า
-        item.querySelector(".add-cart-btn").addEventListener("click", () => {
+       item.querySelector(".add-cart-btn").addEventListener("click", () => {
+
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        // เช็คว่าสินค้านี้มีอยู่ในตะกร้าแล้วหรือยัง
+        const existingItem = cart.find(i => i.id === product.id);
+
+        if (existingItem) {
+            // ถ้ามีอยู่แล้ว → เพิ่มจำนวน
+            existingItem.quantity += 1;
+        } else {
+            // ถ้าไม่มี → เพิ่มสินค้าใหม่
             const cartItem = {
                 ...product,
                 quantity: 1,
                 image: imageUrl
             };
-            localStorage.setItem("cart", JSON.stringify([cartItem]));
-            window.location.href = "cart.html";
-        });
+            cart.push(cartItem);
+        }
+
+        // บันทึกลง localStorage
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        // ย้ายไปหน้า cart
+        alert("เพิ่มสินค้าลงตะกร้าแล้ว!");
+    });
+
 
         // ซื้อสินค้า
         item.querySelector(".buy-btn").addEventListener("click", () => {

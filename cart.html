@@ -3,34 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>cart</title>
+    <title>Cart</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+
     <link rel="stylesheet" href="cart.css">
 </head>
 <body>
-      <nav class="TabBar">
-        <a class="tab-item active" data-page="index">
+
+    <!-- ⭐ Sidebar -->
+    <nav class="TabBar">
+        <a class="tab-item" href="index.html">
             <i class="bi bi-house-heart-fill"></i> Home
         </a>
-        <a class="tab-item" data-page="cart">
+        <a class="tab-item active" href="cart.html">
             <i class="fa-solid fa-cake-candles"></i> Cart
         </a>
-        <a class="tab-item" data-page="dashboard">
-            <i class="bi bi-cup-hot-fill"></i> Dashboard
-        </a>
+       
     </nav>
-
-    <div id="cart-container" class="cart-container"></div>
-
-  <div class="total-box">
-    รวมทั้งหมด: <span id="grandTotal">0</span> บาท
-  </div>
-
-  <script src="cart.js"></script>
 
 
     
+
+    <div id="cart-container" class="cart-container"></div>
+
+    <div class="select-all-box" style="margin-left:220px; margin-top:20px; font-size:18px;">
+        <input type="checkbox" id="selectAll" style="transform:scale(1.3); margin-right:10px;">
+        <label for="selectAll" style="cursor:pointer;">เลือกทั้งหมด</label>
+    </div>
+
+    <div class="total-box">
+        รวมทั้งหมด: <span id="grandTotal">0</span> $
+    </div>
+   
+    <div class="checkout-box">
+        <button onclick="goPurchase()" class="buy-btn">ไปชำระเงิน</button>
+    </div>
+
+
+
+ 
+    <script>
+        function goPurchase() {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const selectedItems = cart.filter(item => item.selected);
+
+            if (selectedItems.length === 0) {
+                alert("กรุณาเลือกรายการที่จะชำระเงิน");
+                return;
+            }
+
+            localStorage.setItem("purchases", JSON.stringify(selectedItems));
+            window.location.href = "purchases.html";
+        }
+    </script>
+
+ 
+    <script src="cart.js"></script>
+
 </body>
 </html>

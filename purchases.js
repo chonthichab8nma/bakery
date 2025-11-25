@@ -13,38 +13,40 @@ function purchase() {
     container.innerHTML = "";
     let summary = 0;
 
-    cart.forEach((item, index) => {
+   for (const index in cart) {
 
+    const item = cart[index];
 
-        const imageUrl = getImageUrl(item.imagePath);
+    const imageUrl = getImageUrl(item.imagePath);
 
-        const qty = item.quantity || 1;
-        const total = item.price * qty;
-        summary += total;
+    const qty = item.quantity || 1;
+    const total = item.price * qty;
+    summary += total;
 
-        const div = document.createElement("div");
-        div.className = "purchase-item";
+    const div = document.createElement("div");
+    div.className = "purchase-item";
 
-        div.innerHTML = `
-            <div style="display:flex;align-items:center;">
-                <img src="${imageUrl}" style="width:80px;height:80px;border-radius:6px;">
-                <div style="margin-left:15px;">
-                    <div class="item-name">${item.name}</div>
-                    <div>ราคา: ${item.price} $</div>
+    div.innerHTML = `
+        <div style="display:flex;align-items:center;">
+            <img src="${imageUrl}" style="width:80px;height:80px;border-radius:6px;">
+            <div style="margin-left:15px;">
+                <div class="item-name">${item.name}</div>
+                <div>ราคา: ${item.price} $</div>
 
-                    <div style="margin-top:8px;display:flex;align-items:center;gap:10px;">
-                        <button class="minus" data-index="${index}">-</button>
-                        <span id="qty-${index}" class="qty">${qty}</span>
-                        <button class="plus" data-index="${index}">+</button>
-                    </div>
+                <div style="margin-top:8px;display:flex;align-items:center;gap:10px;">
+                    <button class="minus" data-index="${index}">-</button>
+                    <span id="qty-${index}" class="qty">${qty}</span>
+                    <button class="plus" data-index="${index}">+</button>
                 </div>
             </div>
+        </div>
 
-            <div style="font-weight:bold;">${total} $</div>
-        `;
+        <div style="font-weight:bold;">${total} $</div>
+    `;
 
-        container.appendChild(div);
-    });
+    container.appendChild(div);
+}
+
 
     finalTotalEl.textContent = summary;
     addPlusMinusEvents();
@@ -77,29 +79,31 @@ function addPlusMinusEvents() {
 
 
 async function submitOrder() {
-    const item = cart[0]; 
 
-    const orderData = {
-        productId: item.id,
-        quantity: item.quantity || 1
-    };
+    for (const item of cart) {
 
-    console.log("ส่งไป API:", orderData);
+        const orderData = {
+            productId: item.id,
+            quantity: item.quantity || 1
+        };
 
-    try {
-        const response = await fetch("https://bakery-api-1fji.onrender.com/purchases", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(orderData)
-        });
+        console.log("ส่งสินค้า:", orderData);
 
-        const result = await response.json();
-        console.log("สั่งซื้อสำเร็จ:", result);
+        try {
+            const response = await fetch("https://bakery-api-1fji.onrender.com/purchases", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(orderData)
+            });
 
-        alert("สั่งซื้อสินค้าเรียบร้อย!");
-        window.location.href = "index.html";
+            const result = await response.json();
+            console.log("สำเร็จ:", result);
 
-    } catch (err) {
-        console.error("Error:", err);
+        } catch (err) {
+            console.error("Error ส่งสินค้า:", err);
+        }
     }
+
+    alert("สั่งซื้อทั้งหมดสำเร็จ!");
+    window.location.href = "index.html";
 }
