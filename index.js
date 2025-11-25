@@ -6,6 +6,8 @@ async function loadProduct() {
     const res = await fetch(API_URL);
     const json = await res.json();
     const items = json.items;  // array ของสินค้า
+    console.log("API Product:", items);
+
 
     items.forEach(product => {
         const item = document.createElement("div");
@@ -35,15 +37,20 @@ async function loadProduct() {
         });
 
        // ซื้อสินค้า (ไปหน้าสรุปทันที)
-        item.querySelector(".buy-btn").addEventListener("click", () => {
-            const buyItem = {
-                ...product,
-                quantity: 1,
-                image: imageUrl
-            };
-            localStorage.setItem("purchases", JSON.stringify([buyItem]));
-            window.location.href = "purchases.html";
-        });
+       item.querySelector(".buy-btn").addEventListener("click", () => {
+        const buyItem = {
+            id: product.id || product.productId,                  
+            name: product.name,
+            price: product.price,
+            quantity: 1,
+            imagePath: product.imagePath,
+            image: imageUrl
+        };
+
+        localStorage.setItem("purchases", JSON.stringify([buyItem]));
+        window.location.href = "purchases.html";
+    });
+
 
         productList.appendChild(item);
     });
