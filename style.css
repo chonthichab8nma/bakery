@@ -112,3 +112,43 @@ button {
     background-color: #007bff;
     color: #fff;
 }
+
+.dashboard-container {
+    display: grid;
+    gap: 20px;
+}
+
+.top-section {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 20px;
+    align-items: center;
+}
+
+.filter-box {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.summary-box {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: #f2f2f2;
+    padding: 15px;
+    border-radius: 8px;
+    gap: 15px;
+}
+
+.summary-item {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.graph-section {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+}
