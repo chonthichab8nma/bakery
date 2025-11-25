@@ -17,7 +17,7 @@ async function loadProducts() {
             <div class="product-info">
                 <strong>${product.name}</strong>
                 ราคา: ${product.price} $<br>
-                สต็อก: ${product.totalStock ?? 0} ชิ้น            
+                สต็อก: ${product.remainingStock ?? 0} ชิ้น            
             </div>
 
             <div class="product-actions">

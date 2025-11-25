@@ -76,42 +76,67 @@ function updateSelectAllStatus() {
 function addEvents() {
 
   
-    document.querySelectorAll(".select-item").forEach(checkbox => {
-        checkbox.addEventListener("change", () => {
-            const index = checkbox.dataset.index;
-            cart[index].selected = checkbox.checked;
-            updateCart();
-        });
-    });
+    // --- checkbox เลือกสินค้า ---
+const selectItems = document.querySelectorAll(".select-item");
+for (const i in selectItems) {
+    const checkbox = selectItems[i];
+    if (!(checkbox instanceof HTMLElement)) continue;
 
- 
-    document.querySelectorAll(".plus").forEach(btn => {
-        btn.addEventListener("click", () => {
-            const index = btn.dataset.index;
-            cart[index].quantity++;
-            updateCart();
-        });
+    checkbox.addEventListener("change", () => {
+        const index = checkbox.dataset.index;
+        cart[index].selected = checkbox.checked;
+        updateCart();
     });
+}
 
- 
-    document.querySelectorAll(".minus").forEach(btn => {
-        btn.addEventListener("click", () => {
-            const index = btn.dataset.index;
-            if (cart[index].quantity > 1) {
-                cart[index].quantity--;
-                updateCart();
-            }
-        });
-    });
+// --- ปุ่มเพิ่มจำนวน ---
+const plusBtns = document.querySelectorAll(".plus");
+for (const i in plusBtns) {
+    const btn = plusBtns[i];
+    if (!(btn instanceof HTMLElement)) continue;
 
-  
-    document.querySelectorAll(".delete-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-            const index = btn.dataset.index;
-            cart.splice(index, 1);
-            updateCart();
-        });
+    btn.addEventListener("click", () => {
+        const index = btn.dataset.index;
+
+        if (cart[index].quantity >= cart[index].remainingStock) {
+            alert("จำนวนเกินสต็อกที่มีอยู่!");
+            return;
+        }
+
+        cart[index].quantity++;
+        updateCart();
     });
+}
+
+// --- ปุ่มลดจำนวน ---
+const minusBtns = document.querySelectorAll(".minus");
+for (const i in minusBtns) {
+    const btn = minusBtns[i];
+    if (!(btn instanceof HTMLElement)) continue;
+
+    btn.addEventListener("click", () => {
+        const index = btn.dataset.index;
+
+        if (cart[index].quantity > 1) {
+            cart[index].quantity--;
+            updateCart();
+        }
+    });
+}
+
+// --- ปุ่มลบสินค้า ---
+const deleteBtns = document.querySelectorAll(".delete-btn");
+for (const i in deleteBtns) {
+    const btn = deleteBtns[i];
+    if (!(btn instanceof HTMLElement)) continue;
+
+    btn.addEventListener("click", () => {
+        const index = btn.dataset.index;
+        cart.splice(index, 1);
+        updateCart();
+    });
+}
+
 
     // ★ Checkbox “เลือกทั้งหมด”
     selectAllCheckbox.addEventListener("change", () => {

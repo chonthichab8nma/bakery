@@ -25,6 +25,7 @@ async function loadProduct() {
             <img src="${imageUrl}">
             <h3>${product.name}</h3>
             <p>ราคา: ${product.price} $</p>
+            <p>คลัง: ${product.remainingStock ?? 0} ชิ้น</p>
             <button class="add-cart-btn">เพิ่มลงตระกร้า</button>
             <button class="buy-btn">ซื้อสินค้า</button>
         `;
@@ -32,45 +33,55 @@ async function loadProduct() {
         // เพิ่มลงตะกร้า
        item.querySelector(".add-cart-btn").addEventListener("click", () => {
 
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    if (product.remainingStock <= 0) {
+        alert("สินค้านี้หมดแล้ว!");
+        return; 
+    }
 
-        // เช็คว่าสินค้านี้มีอยู่ในตะกร้าแล้วหรือยัง
-        const existingItem = cart.find(i => i.id === product.id);
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-        if (existingItem) {
-            // ถ้ามีอยู่แล้ว → เพิ่มจำนวน
-            existingItem.quantity += 1;
-        } else {
-            // ถ้าไม่มี → เพิ่มสินค้าใหม่
-            const cartItem = {
-                ...product,
-                quantity: 1,
-                image: imageUrl
-            };
-            cart.push(cartItem);
+    const existingItem = cart.find(i => i.id === product.id);
+
+    if (existingItem) {
+        if (existingItem.quantity >= product.remainingStock) {
+            alert("จำนวนเกินสต็อกที่มีอยู่!");
+            return;
         }
+        existingItem.quantity++;
+    } else {
+        cart.push({
+            ...product,
+            quantity: 1,
+            image: imageUrl,
+            remainingStock: product.remainingStock,
+        });
+    }
 
-        // บันทึกลง localStorage
-        localStorage.setItem("cart", JSON.stringify(cart));
-
-        // ย้ายไปหน้า cart
-        alert("เพิ่มสินค้าลงตะกร้าแล้ว!");
-    });
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert("เพิ่มสินค้าลงตะกร้าแล้ว!");
+});
 
 
         // ซื้อสินค้า
-        item.querySelector(".buy-btn").addEventListener("click", () => {
-            const buyItem = {
-                id: product.id,
-                name: product.name,
-                price: product.price,
-                quantity: 1,
-                imagePath: product.imagePath,
-                image: imageUrl
-            };
-            localStorage.setItem("purchases", JSON.stringify([buyItem]));
-            window.location.href = "purchases.html";
-        });
+     item.querySelector(".buy-btn").addEventListener("click", () => {
+    if (product.remainingStock <= 0) {
+        alert("สินค้านี้หมดแล้ว!");
+        return;
+    }
+
+    const buyItem = {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: 1,
+        imagePath: product.imagePath,
+        remainingStock: product.remainingStock
+    };
+
+    localStorage.setItem("purchases", JSON.stringify([buyItem]));
+    window.location.href = "purchases.html";
+});
+
 
         productList.appendChild(item);
     });

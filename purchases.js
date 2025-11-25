@@ -56,14 +56,21 @@ purchase();
 
 
 function addPlusMinusEvents() {
-    document.querySelectorAll(".plus").forEach(btn => {
-        btn.addEventListener("click", () => {
-            const index = btn.dataset.index;
-            cart[index].quantity++;
-            localStorage.setItem("purchases", JSON.stringify(cart));
-            purchase();
-        });
+   document.querySelectorAll(".plus").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const index = btn.dataset.index;
+
+        if (cart[index].quantity >= cart[index].remainingStock) {
+            alert("จำนวนเกินสต็อกที่มีอยู่!");
+            return;
+        }
+
+        cart[index].quantity++;
+        localStorage.setItem("purchases", JSON.stringify(cart));
+        purchase();
     });
+});
+
 
     document.querySelectorAll(".minus").forEach(btn => {
         btn.addEventListener("click", () => {
@@ -81,6 +88,12 @@ function addPlusMinusEvents() {
 async function submitOrder() {
 
     for (const item of cart) {
+
+        
+        if (item.quantity > item.remainingStock) {
+            alert(`สินค้า "${item.name}" มีไม่พอ! (เหลือ ${item.remainingStock} ชิ้น)`);
+            return;   // ❗ หยุดการสั่งซื้อทั้งหมด
+        }
 
         const orderData = {
             productId: item.id,
@@ -107,3 +120,4 @@ async function submitOrder() {
     alert("สั่งซื้อทั้งหมดสำเร็จ!");
     window.location.href = "index.html";
 }
+
