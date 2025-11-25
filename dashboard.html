@@ -12,16 +12,15 @@
 
   <h1>Bakery Dashboard</h1>
 
-  <h2>สรุปสินค้า</h2>
-  <h2>สรุปยอดขายตามประเภทสินค้า</h2>
+  <h2>สรุปรายการสินค้า</h2>
+  <p>จำนวนสินค้าทั้งหมด: <span id="totalStock">-</span></p>
+  <p>สินค้าที่ขายได้: <span id="totalSold">-</span></p>
+  <p>สินค้าคงเหลือ: <span id="totalRemaining">-</span></p>
+
   <div id="summaryByProduct">Loading...</div>
 
-  <!-- <p>Total Products: <span id="totalProducts">Loading...</span></p> -->
-  <!-- <p>จำนวนสินค้าทั้งหมด: <span id="totalStock">Loading...</span></p>
-  <p>สินค้าที่ขายได้: <span id="totalSold">Loading...</span></p>
-  <p>สินค้าคงเหลือ: <span id="totalRemaining">Loading...</span></p> -->
-
   <h2>สินค้าขายดีที่สุด</h2>
+
   <!-- จะโชว์สินค้า best-by-quantity -->
   <div id="bestQuantity"></div>
 
@@ -33,8 +32,6 @@
 
   <h2>ยอดขายรวมตามรายได้</h2>
   <div id="totalByRevenue">Loading...</div>
-
-
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="dashboard.js"></script>
