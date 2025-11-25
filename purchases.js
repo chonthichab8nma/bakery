@@ -1,6 +1,8 @@
 const container = document.getElementById("purchaseContainer");
 const finalTotalEl = document.getElementById("finalTotal");
 
+const IMAGE_BASE_URL = "https://uunyyytttawccmjtzjdz.supabase.co/storage/v1/object/public/products/";
+
 let cart = JSON.parse(localStorage.getItem("purchases")) || [];
 
 function purchase() {
@@ -9,13 +11,13 @@ function purchase() {
 
     cart.forEach(item => {
 
-        // ⭐ ดึงรูปจาก imagePath แทน image
-        const imageUrl = item.imagePath
-            ? `https://bakery-api-1fji.onrender.com/${item.imagePath}`
+        // ⭐ ใช้รูปจาก Supabase
+        const imageUrl = item.imagePath 
+            ? `${IMAGE_BASE_URL}${item.imagePath.replace("public/", "")}`
             : "https://via.placeholder.com/100";
 
-        const qty = item.quantity || 1;   // ⭐ กัน quantity undefined
-        const total = item.price * qty;   // ⭐ ไม่เป็น NaN แล้ว
+        const qty = item.quantity || 1;
+        const total = item.price * qty;
 
         summary += total;
 
@@ -42,15 +44,19 @@ function purchase() {
 
 purchase();
 
-// ฟังก์ชันกดซื้อทั้งหมด → ส่งเข้า API
+
+// ⭐ ส่งข้อมูลไป API ให้ถูกต้อง
 async function submitOrder() {
 
+    const item = cart[0]; 
+
+    // API ต้องการ id ไม่ใช่ productId ไม่ต้องหุ้มด้วย items[]
     const orderData = {
-        items: cart.map(item => ({
-            id: item.id,         
-            quantity: item.quantity || 1
-        }))
+        productId: item.id,
+        quantity: item.quantity || 1
     };
+
+    console.log("ส่งขึ้น API:", orderData);
 
     try {
         const response = await fetch("https://bakery-api-1fji.onrender.com/purchases", {
@@ -60,10 +66,12 @@ async function submitOrder() {
         });
 
         const result = await response.json();
-        console.log("ส่งคำสั่งซื้อสำเร็จ! ✅");
-        console.log(result);
+        console.log("สำเร็จ:", result);
 
-    } catch (error) {
-        console.error("ส่งข้อมูลล้มเหลว ❌", error);
+        alert("สั่งซื้อสินค้าสำเร็จ!");
+        window.location.href = "index.html";
+
+    } catch (err) {
+        console.error(err);
     }
 }

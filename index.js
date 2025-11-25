@@ -1,19 +1,20 @@
 const API_URL = "https://bakery-api-1fji.onrender.com/products";
+const IMAGE_BASE_URL = "https://uunyyytttawccmjtzjdz.supabase.co/storage/v1/object/public/products/";
 
 const productList = document.getElementById("product-list");
 
 async function loadProduct() {
     const res = await fetch(API_URL);
     const json = await res.json();
-    const items = json.items;  // array ของสินค้า
+    const items = json.items;
+    console.log("API Product:", items);
 
     items.forEach(product => {
         const item = document.createElement("div");
         item.className = "product-card";
 
-        const imageUrl = product.imagePath.startsWith("http")
-            ? product.imagePath
-            : `https://bakery-api-1fji.onrender.com/${product.imagePath}`;
+       
+        const imageUrl = `${IMAGE_BASE_URL}${product.imagePath.replace("public/", "")}`;
 
         item.innerHTML = `
             <img src="${imageUrl}" alt="${product.name}">
@@ -23,7 +24,7 @@ async function loadProduct() {
             <button class="buy-btn">ซื้อสินค้า</button>
         `;
 
-        //เพิ่มลงตะกร้า
+        // เพิ่มลงตะกร้า
         item.querySelector(".add-cart-btn").addEventListener("click", () => {
             const cartItem = {
                 ...product,
@@ -34,11 +35,14 @@ async function loadProduct() {
             window.location.href = "cart.html";
         });
 
-       // ซื้อสินค้า (ไปหน้าสรุปทันที)
+        // ซื้อสินค้า
         item.querySelector(".buy-btn").addEventListener("click", () => {
             const buyItem = {
-                ...product,
+                id: product.id,
+                name: product.name,
+                price: product.price,
                 quantity: 1,
+                imagePath: product.imagePath,
                 image: imageUrl
             };
             localStorage.setItem("purchases", JSON.stringify([buyItem]));
