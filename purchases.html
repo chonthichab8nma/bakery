@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchases</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="purchases.css">
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <nav class="TabBar">
+        <a class="tab-item active" data-page="index">
+            <i class="bi bi-house-heart-fill"></i> Home
+        </a>
+        <a class="tab-item" data-page="cart">
+            <i class="fa-solid fa-cake-candles"></i> Cart
+        </a>
+        <a class="tab-item" data-page="dashboard">
+            <i class="bi bi-cup-hot-fill"></i> Dashboard
+        </a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>สั่งซื้อสินค้า</h1>
+
+        <div id="purchaseContainer" class="purchase-container"></div>
+
+        <h2>รวมทั้งหมด: <span id="finalTotal">0</span> บาท</h2>
+
+        <!-- ปุ่มกดซื้อ -->
+        <button class="submit-btn" onclick="submitOrder()">ยืนยันการสั่งซื้อ</button>
+
+    </div>
+
+    <script src="purchases.js"></script>
+
+</body>
+</html>
