@@ -11,10 +11,11 @@
         height: 100vh;
         background: #f4f4f4;
         display: flex;
-        flex-direction: column; /* ให้เรียงลง */
+        flex-direction: column;
+        /* ให้เรียงลง */
         padding: 20px 10px;
         gap: 15px;
-        box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
     }
 
     .tab-item {
@@ -40,3 +41,74 @@
         font-weight: bold;
     }
 
+       
+    .main-content {
+        margin-left: 200px; /* ระยะห่างจาก Sidebar */
+        padding: 20px;
+    }
+
+    /* จัด search-bar ให้สวยงาม */
+    .search-bar {
+        margin-bottom: 20px;
+        display: flex;
+        gap: 10px;
+    }
+
+    .search-bar input {
+        flex: 1;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .search-bar button {
+        padding: 10px 15px;
+        font-size: 16px;
+    }
+
+
+   .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 10px;
+    }
+
+
+    .product-card {
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    .product-card img {
+        width: 100%;
+        border-radius: 10px;
+    }
+    .product-card h3 {
+    font-size: 16px;
+    margin: 10px 0 5px 0;
+}
+
+.product-card p {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 6px 10px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-cart-btn {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.buy-btn {
+    background-color: #007bff;
+    color: #fff;
+}
