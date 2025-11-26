@@ -91,24 +91,32 @@ async function loadBestSellers() {
 
         // แสดงสินค้าขายดีที่สุดตามจำนวน
         document.getElementById("bestQuantity").innerHTML = `
+        <p>จำนวนมากที่สุด</p>
             <div class="summary-box">
-            <p>สินค้าขายดีตามปริมาณ</p>
-                <span class="product-name">${bestQty.name}</span>
-                <span class="label">ขายไปแล้ว </span> <span>${bestQty.soldQuantity} ชิ้น</span>
-                <span class="label">ราคา </span> <span>$${bestQty.price}</span>
-
+            <p class="product-name">${bestQty.name}</p>
+                <div class="summary-grid">
+                    <div class="label">ขายไปแล้ว</div>
+                    <div class="label">ราคา</div>
+                    <div class="value">${bestQty.soldQuantity} ชิ้น</div>
+                    <div class="value">$${bestQty.price}</div>
+                </div>
             </div>
         `;
 
         // แสดงสินค้าขายดีที่สุดตามรายได้
         document.getElementById("bestRevenue").innerHTML = `
+        <p>รายได้สูงสุด</p>
             <div class="summary-box">
-            <p>สินค้าขายดีตามรายได้</p>
-                <span class="product-name">${bestRev.name}</span>
-                <span class="label">ขายไปแล้ว </span> <span>${bestRev.soldQuantity} ชิ้น</span>
-                <span class="label">ราคา </span> <span>$${bestRev.price}</span>
-                <span class="label">ยอดขายรวม </span> <span>$${bestRev.totalRevenue}</span>
-            </div>
+            <p class="product-name">${bestRev.name}</p>
+                <div class="summary-grid-3">
+                    <div class="label">ขายไปแล้ว</div>
+                    <div class="label">ราคา</div>
+                    <div class="label">ยอดขายรวม</div>
+
+                    <div class="value">${bestRev.soldQuantity} ชิ้น</div>
+                    <div class="value">$${bestRev.price}</div>
+                    <div class="value">$${bestRev.totalRevenue}</div>
+                </div>
         `;
 
     } catch (error) {
@@ -145,7 +153,7 @@ async function fetchSales() {
                 labels: labels,
                 datasets: [{
                     data: quantities,
-                    backgroundColor: labels.map(() => `hsl(${Math.random()*360}, 70%, 70%)`)
+                    backgroundColor: labels.map(() => `hsl(${Math.random() * 360}, 70%, 70%)`)
                 }]
             },
             options: {
@@ -163,7 +171,7 @@ async function fetchSales() {
                 labels: labels,
                 datasets: [{
                     data: revenues,
-                    backgroundColor: labels.map(() => `hsl(${Math.random()*360}, 70%, 70%)`)
+                    backgroundColor: labels.map(() => `hsl(${Math.random() * 360}, 70%, 70%)`)
                 }]
             },
             options: {
