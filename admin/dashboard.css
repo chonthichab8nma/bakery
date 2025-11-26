@@ -3,7 +3,6 @@ body {
     font-family: sans-serif;
 }
 
-/* Sidebar */
 .TabBar {
     position: fixed;
     top: 0;
@@ -42,7 +41,6 @@ body {
     font-weight: bold;
 }
 
-/* Main content */
 .main-content {
     margin-left: 200px;
     padding: 20px;
@@ -65,6 +63,7 @@ body {
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
 }
 
 .stock-card .label {
@@ -77,24 +76,16 @@ body {
 .stock-card span {
     font-size: 28px;
     font-weight: bold;
-    color: #ff6f61;
+    color: #6868fd;
 }
 
-/* Summary by Product */
-#summaryByProduct {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-#summaryByProduct #productDropdown {
-    align-self: flex-end;
+#productDropdown {
     margin-bottom: 10px;
     padding: 5px 10px;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     font-size: 14px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 #productDetails {
@@ -103,20 +94,8 @@ body {
     gap: 20px;
     width: 100%;
     justify-content: start;
-    /* จัดกึ่งกลางแนวนอน (ซ้าย-ขวา) */
     align-items: center;
-    /* จัดกึ่งกลางแนวตั้ง (บน-ล่าง) */
-
 }
-
-/* .product-card {
-    background-color: #fff;
-    padding: 15px;
-    border-radius: 10px;
-    width: 200px;
-    text-align: center;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-} */
 
 .product-name {
     font-weight: bold;
@@ -140,45 +119,39 @@ body {
 .summary-box span {
     font-size: 18px;
     font-weight: bold;
-    color: #ff6f61;
+    color: #6868fd;
 }
 
-/* Two-column layout */
 .two-columns {
     display: flex;
     gap: 20px;
     margin-top: 20px;
 }
 
-/* Left & Right Column */
 .left-column,
 .right-column {
     flex: 1;
-    background-color: #fff;
-    /* สีพื้นของกล่อง */
+    background-color: #ffffff;
     padding: 20px;
-    /* ระยะขอบข้างใน */
     border-radius: 10px;
-    /* มุมโค้ง */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    /* เงาให้เด่น */
 }
 
-/* Right column dropdown ขวาบน */
-#summaryByProduct {
+/* #summaryByProduct {
     display: flex;
     flex-direction: column;
     gap: 0px;
-}
+} */
 
-#summaryByProduct #productDropdown {
+#summaryByProduct {
     align-self: start;
     margin-bottom: 10px;
     padding: 5px 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    border-radius: 10px;
     font-size: 14px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
+
 .chart-row {
     display: flex;
     justify-content: space-between;
@@ -191,9 +164,9 @@ body {
     background: #fff;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
-      
+
 .chart-box h2 {
     text-align: center;
     margin-bottom: 15px;
@@ -202,4 +175,40 @@ body {
 canvas {
     width: 100% !important;
     height: 350px !important;
+}
+
+.best-sellers-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.best-sellers-row .summary-box {
+    flex: 1;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: left;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    height: 250px;
+}
+
+.best-sellers-row .summary-box .product-name {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.best-sellers-row .summary-box .label {
+    font-size: 12px;
+    color: #555;
+    display: block;
+    margin-top: 5px;
+}
+
+.best-sellers-row .summary-box span {
+    font-size: 18px;
+    font-weight: bold;
+    color: #6868fd;
 }
