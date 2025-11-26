@@ -1,5 +1,9 @@
 const API_URL = "https://bakery-api-1fji.onrender.com/products";
 
+
+
+
+
 // ---------------- LOAD PRODUCTS ----------------
 async function loadProducts() {
     const res = await fetch(API_URL);
@@ -44,21 +48,33 @@ loadProducts();
 // ---------------- ADD PRODUCT ----------------
 async function addProduct() {
     const name = document.getElementById("name").value;
-    const price = Number(document.getElementById("price").value);
-    const imagePath = document.getElementById("imagePath").value;
-    const totalStock = Number(document.getElementById("totalStock").value);
+    const price = document.getElementById("price").value;
+    const totalStock = document.getElementById("totalStock").value;
+    const file = document.getElementById("addImage").files[0];
 
-    const product = { name, price, imagePath, totalStock };
+    if (!file) {
+        alert("กรุณาเลือกรูปภาพ!");
+        return;
+    }
 
-    await fetch(API_URL, {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("price", price);
+    formData.append("totalStock", totalStock);
+    formData.append("image", file); // ⭐ ใส่รูปจริง
+
+    const res = await fetch("https://bakery-api-1fji.onrender.com/products/with-image", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(product)
+        body: formData
     });
+
+    const result = await res.json();
+    console.log(result);
 
     alert("เพิ่มสินค้าเรียบร้อย!");
     loadProducts();
 }
+
 
 
 // EDIT PRODUCT POPUP 
@@ -83,25 +99,22 @@ document.getElementById("closeModal").onclick = () => {
 
 //  SAVE EDIT
 document.getElementById("saveEdit").onclick = async () => {
-    const newName = document.getElementById("editName").value;
-    const newPrice = Number(document.getElementById("editPrice").value);
-    const newTotalStock = Number(document.getElementById("editStock").value);
-    const newFile = document.getElementById("editImage").value.trim();
+    const newName = editName.value;
+    const newPrice = Number(editPrice.value);
+    const newStock = Number(editStock.value);
+    const file = editImage.files[0];
 
-    // ถ้ามีการแก้ไขชื่อรูป
-    const newImagePath = newFile
-        ? `products/${Date.now()}-${newFile}`
-        : undefined;
-
-    const updateData = {
-        name: newName,
-        price: newPrice,
-        totalStock: newTotalStock
+    let updateData = { 
+        name: newName, 
+        price: newPrice, 
+        totalStock: newStock 
     };
 
-    if (newImagePath) updateData.imagePath = newImagePath;
-
-    console.log("ส่งข้อมูลแก้ไข:", updateData);
+    // ถ้าแก้ไขรูปใหม่ → upload ก่อน
+    if (file) {
+        const newPath = await uploadImage(file);
+        updateData.imagePath = newPath;
+    }
 
     await fetch(`${API_URL}/${editId}`, {
         method: "PATCH",
@@ -109,12 +122,11 @@ document.getElementById("saveEdit").onclick = async () => {
         body: JSON.stringify(updateData)
     });
 
-    alert("แก้ไขเสร็จแล้ว!");
-
-    document.getElementById("editModal").style.display = "none";
-
+    alert("แก้ไขสินค้าเรียบร้อย!");
+    editModal.style.display = "none";
     loadProducts();
 };
+
 
 
 // DELETE 
