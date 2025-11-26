@@ -61,8 +61,7 @@ async function addProduct() {
 }
 
 
-// ---------------- EDIT PRODUCT POPUP ----------------
-let editId = null;
+// EDIT PRODUCT POPUP 
 
 function editProduct(id, name, price, imagePath, totalStock) {
     editId = id;
@@ -82,7 +81,7 @@ document.getElementById("closeModal").onclick = () => {
 };
 
 
-// ---------------- SAVE EDIT ----------------
+//  SAVE EDIT
 document.getElementById("saveEdit").onclick = async () => {
     const newName = document.getElementById("editName").value;
     const newPrice = Number(document.getElementById("editPrice").value);
@@ -118,14 +117,26 @@ document.getElementById("saveEdit").onclick = async () => {
 };
 
 
-// ---------------- DELETE PRODUCT ----------------
+// DELETE 
 async function deleteProduct(id) {
-    if (!confirm("ต้องการลบสินค้าหรือไม่?")) return;
+    if (!confirm("คุณต้องการลบสินค้านี้หรือไม่?")) return;
 
-    await fetch(`${API_URL}/${id}`, {
-        method: "DELETE"
-    });
+    try {
+        const response = await fetch(`${API_URL}/${id}`, {
+            method: "DELETE"
+        });
 
-    alert("ลบสินค้าเรียบร้อย!");
-    loadProducts();
+        if (!response.ok) {
+            alert("ลบสินค้าไม่สำเร็จ!");
+            return;
+        }
+
+        alert("ลบสินค้าเรียบร้อย!");
+        loadProducts(); // โหลดรายการใหม่หลังจากลบสำเร็จ
+    } 
+    catch (err) {
+        console.error("ลบสินค้า error:", err);
+        alert("เกิดข้อผิดพลาด ไม่สามารถลบสินค้าได้");
+    }
 }
+
