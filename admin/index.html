@@ -40,10 +40,35 @@
 
         <h2 style="margin-top:40px;">รายการสินค้า</h2>
 
-        <!-- ⭐ รายการสินค้า -->
+        <!--  รายการสินค้า -->
         <div id="product-list" class="product-list"></div>
 
     </div>
+
+    <!--  Popup  -->
+    <div id="editModal" class="modal">
+    <div class="modal-content">
+        <h2>แก้ไขสินค้า</h2>
+
+        <label>ชื่อสินค้า</label>
+        <input type="text" id="editName">
+
+        <label>ราคา</label>
+        <input type="number" id="editPrice">
+
+        <label>สต็อก</label>
+        <input type="number" id="editStock">
+
+        <label>ชื่อไฟล์รูป</label>
+        <input type="text" id="editImage">
+
+        <div class="modal-actions">
+        <button id="saveEdit" class="save-btn">บันทึก</button>
+        <button id="closeModal" class="cancel-btn">ยกเลิก</button>
+        </div>
+    </div>
+    </div>
+
 
     <script src="admin.js"></script>
 </body>
