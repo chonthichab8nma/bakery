@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+ <nav class="TabBar">
+  <a class="tab-item" href="index.html">
+    <i class="bi bi-house-heart-fill"></i> Manage Products
+  </a>
+
+ <a class="tab-item active" href="dashboard.html">
+  <i class="fa-solid fa-cake-candles"></i> Dashboard
+</a>
+</nav>
+
+  <main class="main-content">
+    <h1>Bakery Dashboard</h1>
+
+    <h2>สรุปสต็อกสินค้า</h2>
+
+    <div class="stock-summary">
+      <p class="stock-card">
+        <span class="label">Total Stock</span>
+        <span id="totalStock">-</span>
+      </p>
+      <p class="stock-card">
+        <span class="label">Sold Items</span>
+        <span id="totalSold">-</span>
+      </p>
+      <p class="stock-card">
+        <span class="label">Remaining Stock</span>
+        <span id="totalRemaining">-</span>
+      </p>
+    </div>
+
+    <!-- Two Column Layout -->
+    <div class="two-columns">
+      <!-- Left Column: Best Sellers -->
+      <div class="left-column">
+        <h2>สินค้าขายดีที่สุด</h2>
+        <div id="bestQuantity"></div>
+        <div id="bestRevenue"></div>
+      </div>
+
+      <!-- Right Column: Summary By Product -->
+      <div class="right-column">
+        <h2>สรุปสินค้าทั้งหมด</h2>
+        <div id="summaryByProduct">Loading...</div>
+      </div>
+    </div>
+
+    <div class="chart-row">
+    <div class="chart-box">
+        <h2>ยอดขายรวมตามจำนวน</h2>
+        <canvas id="chartByQuantity"></canvas>
+    </div>
+
+    <div class="chart-box">
+        <h2>ยอดขายรวมตามรายได้</h2>
+        <canvas id="chartByRevenue"></canvas>
+    </div>
+</div>
+
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="dashboard.js" defer></script>
+</body>
+
+</html>
