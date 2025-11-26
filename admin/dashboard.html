@@ -10,15 +10,15 @@
 </head>
 
 <body>
- <nav class="TabBar">
-  <a class="tab-item" href="index.html">
-    <i class="bi bi-house-heart-fill"></i> Manage Products
-  </a>
+  <nav class="TabBar">
+    <a class="tab-item" href="index.html">
+      <i class="bi bi-house-heart-fill"></i> Manage Products
+    </a>
 
- <a class="tab-item active" href="dashboard.html">
-  <i class="fa-solid fa-cake-candles"></i> Dashboard
-</a>
-</nav>
+    <a class="tab-item active" href="dashboard.html">
+      <i class="fa-solid fa-cake-candles"></i> Dashboard
+    </a>
+  </nav>
 
   <main class="main-content">
     <h1>Bakery Dashboard</h1>
@@ -27,15 +27,15 @@
 
     <div class="stock-summary">
       <p class="stock-card">
-        <span class="label">Total Stock</span>
+        <span class="label">Total Stock</span><br>
         <span id="totalStock">-</span>
       </p>
       <p class="stock-card">
-        <span class="label">Sold Items</span>
+        <span class="label">Sold Items</span><br>
         <span id="totalSold">-</span>
       </p>
       <p class="stock-card">
-        <span class="label">Remaining Stock</span>
+        <span class="label">Remaining Stock</span><br>
         <span id="totalRemaining">-</span>
       </p>
     </div>
@@ -45,8 +45,10 @@
       <!-- Left Column: Best Sellers -->
       <div class="left-column">
         <h2>สินค้าขายดีที่สุด</h2>
-        <div id="bestQuantity"></div>
-        <div id="bestRevenue"></div>
+        <div class="best-sellers-row">
+          <div id="bestQuantity"></div>
+          <div id="bestRevenue"></div>
+        </div>
       </div>
 
       <!-- Right Column: Summary By Product -->
@@ -57,16 +59,16 @@
     </div>
 
     <div class="chart-row">
-    <div class="chart-box">
+      <div class="chart-box">
         <h2>ยอดขายรวมตามจำนวน</h2>
         <canvas id="chartByQuantity"></canvas>
-    </div>
+      </div>
 
-    <div class="chart-box">
+      <div class="chart-box">
         <h2>ยอดขายรวมตามรายได้</h2>
         <canvas id="chartByRevenue"></canvas>
+      </div>
     </div>
-</div>
 
 
   </main>
