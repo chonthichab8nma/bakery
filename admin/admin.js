@@ -22,7 +22,7 @@ async function loadProducts() {
 
             <div class="product-actions">
                 <button class="edit-btn" 
-                    onclick="editProduct('${product.id}','${product.name}',${product.price},'${product.imagePath}',${product.stock})">
+                    onclick="editProduct('${product.id}','${product.name}',${product.price},'${product.imagePath}',${product.remainingStock})">
                     แก้ไข
                 </button>
 
@@ -43,9 +43,9 @@ async function addProduct() {
     const name = document.getElementById("name").value;
     const price = Number(document.getElementById("price").value);
     const imagePath = document.getElementById("imagePath").value;
-    const totalStock = Number(document.getElementById("totalStock").value);
+    const remainingStock = Number(document.getElementById("remainingStock").value);
 
-    const product = { name, price, imagePath, totalStock};
+    const product = { name, price, imagePath, remainingStock};
 
     await fetch(API_URL, {
         method: "POST",
@@ -58,27 +58,56 @@ async function addProduct() {
 }
 
 // ----------- EDIT PRODUCT -------------
-function editProduct(id, name, price, imagePath, totalStock) {
-    const newName = prompt("แก้ไขชื่อสินค้า", name);
-    const newPrice = prompt("แก้ไขราคา", price);
-    const newImagePath = prompt("แก้ไขรูปภาพ", imagePath);
-    const newTotalStock = prompt("แก้ไขสต็อก", totalStock);
+let editId = null; // เก็บ id ที่กำลังแก้ไข
 
-    if (!newName || !newPrice) return;
+function editProduct(id, name, price, imagePath, remainingStock) {
+    editId = id;
 
-    fetch(`${API_URL}/${id}`, {
-        method: "PATCH",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-            name: newName,
-            price: Number(newPrice),
-            imagePath: newImagePath,
-            totalStock: Number(newTotalStock)
-        })
-    })
-    .then(() => {
-        alert("แก้ไขสำเร็จ!");
-        loadProducts();
-    });
+    //  ใส่ข้อมูลลง input ของ popup
+    document.getElementById("editName").value = name;
+    document.getElementById("editPrice").value = price;
+    document.getElementById("editStock").value = remainingStock;
+    document.getElementById("editImage").value = imagePath.split("-").pop(); 
+
+
+    //  เปิด popup
+    document.getElementById("editModal").style.display = "block";
 }
+
+//  ปุ่มปิด popup
+document.getElementById("closeModal").onclick = () => {
+    document.getElementById("editModal").style.display = "none";
+};
+
+//  ปุ่มบันทึก
+document.getElementById("saveEdit").onclick = async () => {
+
+    const newName = document.getElementById("editName").value;
+    const newPrice = Number(document.getElementById("editPrice").value);
+    const newStock = Number(document.getElementById("editStock").value);
+    const imageFile = document.getElementById("editImage").value.trim();
+
+    // สร้างชื่อไฟล์ใหม่
+    const newImagePath = "products/" + Date.now() + "-" + imageFile;
+
+    const updateData = {
+        name: newName,
+        price: newPrice,
+        remainingStock: newStock,
+        imagePath: newImagePath
+    };
+
+    await fetch(`${API_URL}/${editId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updateData)
+    });
+
+    alert("แก้ไขรายการสำเร็จ!");
+
+    document.getElementById("editModal").style.display = "none";
+
+    loadProducts(); // โหลดรายการใหม่
+};
+
 
