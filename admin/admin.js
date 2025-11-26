@@ -1,6 +1,6 @@
 const API_URL = "https://bakery-api-1fji.onrender.com/products";
 
-// ----------- LOAD PRODUCTS -------------
+// ---------------- LOAD PRODUCTS ----------------
 async function loadProducts() {
     const res = await fetch(API_URL);
     const data = await res.json();
@@ -17,12 +17,14 @@ async function loadProducts() {
             <div class="product-info">
                 <strong>${product.name}</strong>
                 ราคา: ${product.price} $<br>
-                สต็อก: ${product.remainingStock ?? 0} ชิ้น            
+                สต็อกทั้งหมด: ${product.totalStock ?? 0} ชิ้น <br>
+                ขายไปแล้ว: ${product.soldQuantity ?? 0} ชิ้น <br>
+                คงเหลือ: ${product.remainingStock ?? 0} ชิ้น
             </div>
 
             <div class="product-actions">
-                <button class="edit-btn" 
-                    onclick="editProduct('${product.id}','${product.name}',${product.price},'${product.imagePath}',${product.remainingStock})">
+                <button class="edit-btn"
+                    onclick="editProduct('${product.id}','${product.name}',${product.price},'${product.imagePath}',${product.totalStock})">
                     แก้ไข
                 </button>
 
@@ -38,18 +40,19 @@ async function loadProducts() {
 
 loadProducts();
 
-// ----------- ADD PRODUCT -------------
+
+// ---------------- ADD PRODUCT ----------------
 async function addProduct() {
     const name = document.getElementById("name").value;
     const price = Number(document.getElementById("price").value);
     const imagePath = document.getElementById("imagePath").value;
-    const remainingStock = Number(document.getElementById("remainingStock").value);
+    const totalStock = Number(document.getElementById("totalStock").value);
 
-    const product = { name, price, imagePath, remainingStock};
+    const product = { name, price, imagePath, totalStock };
 
     await fetch(API_URL, {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(product)
     });
 
@@ -57,45 +60,49 @@ async function addProduct() {
     loadProducts();
 }
 
-// ----------- EDIT PRODUCT -------------
-let editId = null; // เก็บ id ที่กำลังแก้ไข
 
-function editProduct(id, name, price, imagePath, remainingStock) {
+// ---------------- EDIT PRODUCT POPUP ----------------
+let editId = null;
+
+function editProduct(id, name, price, imagePath, totalStock) {
     editId = id;
 
-    //  ใส่ข้อมูลลง input ของ popup
     document.getElementById("editName").value = name;
     document.getElementById("editPrice").value = price;
-    document.getElementById("editStock").value = remainingStock;
-    document.getElementById("editImage").value = imagePath.split("-").pop(); 
+    document.getElementById("editStock").value = totalStock;
+    document.getElementById("editImage").value = imagePath.split("-").pop();
 
-
-    //  เปิด popup
     document.getElementById("editModal").style.display = "block";
 }
 
-//  ปุ่มปิด popup
+
+// ปิด popup
 document.getElementById("closeModal").onclick = () => {
     document.getElementById("editModal").style.display = "none";
 };
 
-//  ปุ่มบันทึก
-document.getElementById("saveEdit").onclick = async () => {
 
+// ---------------- SAVE EDIT ----------------
+document.getElementById("saveEdit").onclick = async () => {
     const newName = document.getElementById("editName").value;
     const newPrice = Number(document.getElementById("editPrice").value);
-    const newStock = Number(document.getElementById("editStock").value);
-    const imageFile = document.getElementById("editImage").value.trim();
+    const newTotalStock = Number(document.getElementById("editStock").value);
+    const newFile = document.getElementById("editImage").value.trim();
 
-    // สร้างชื่อไฟล์ใหม่
-    const newImagePath = "products/" + Date.now() + "-" + imageFile;
+    // ถ้ามีการแก้ไขชื่อรูป
+    const newImagePath = newFile
+        ? `products/${Date.now()}-${newFile}`
+        : undefined;
 
     const updateData = {
         name: newName,
         price: newPrice,
-        remainingStock: newStock,
-        imagePath: newImagePath
+        totalStock: newTotalStock
     };
+
+    if (newImagePath) updateData.imagePath = newImagePath;
+
+    console.log("ส่งข้อมูลแก้ไข:", updateData);
 
     await fetch(`${API_URL}/${editId}`, {
         method: "PATCH",
@@ -103,11 +110,22 @@ document.getElementById("saveEdit").onclick = async () => {
         body: JSON.stringify(updateData)
     });
 
-    alert("แก้ไขรายการสำเร็จ!");
+    alert("แก้ไขเสร็จแล้ว!");
 
     document.getElementById("editModal").style.display = "none";
 
-    loadProducts(); // โหลดรายการใหม่
+    loadProducts();
 };
 
 
+// ---------------- DELETE PRODUCT ----------------
+async function deleteProduct(id) {
+    if (!confirm("ต้องการลบสินค้าหรือไม่?")) return;
+
+    await fetch(`${API_URL}/${id}`, {
+        method: "DELETE"
+    });
+
+    alert("ลบสินค้าเรียบร้อย!");
+    loadProducts();
+}
